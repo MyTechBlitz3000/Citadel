@@ -3,30 +3,30 @@ import PackageDescription
 
 let package = Package(
     name: "Citadel",
-    
+
     platforms: [
         .macOS(.v14),
         .iOS(.v17)
     ],
-    
+
     products: [
         .library(
             name: "Citadel",
             targets: ["Citadel"]
         ),
     ],
-    
+
     dependencies: [
-        // 🔧 STABILIZED VERSIONS (important for SwiftPM resolution)
+        // ✅ USE OFFICIAL REPOS ONLY (critical fix)
 
         .package(
             url: "https://github.com/apple/swift-nio.git",
-            exact: "2.68.0"
+            from: "2.68.0"
         ),
 
         .package(
             url: "https://github.com/apple/swift-nio-ssh.git",
-            exact: "0.3.4"
+            from: "0.3.0"
         ),
 
         .package(
@@ -49,18 +49,16 @@ let package = Package(
             from: "1.5.0"
         ),
     ],
-    
+
     targets: [
         .target(
-            name: "CCitadelBcrypt",
-            path: "Sources/CCitadelBcrypt"
+            name: "CCitadelBcrypt"
         ),
-        
+
         .target(
             name: "Citadel",
             dependencies: [
                 "CCitadelBcrypt",
-                
                 .product(name: "NIOSSH", package: "swift-nio-ssh"),
                 .product(name: "NIO", package: "swift-nio"),
                 .product(name: "Crypto", package: "swift-crypto"),
@@ -69,7 +67,7 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log"),
             ]
         ),
-        
+
         .executableTarget(
             name: "CitadelServerExample",
             dependencies: [
@@ -77,7 +75,7 @@ let package = Package(
                 .product(name: "ColorizeSwift", package: "ColorizeSwift")
             ]
         ),
-        
+
         .testTarget(
             name: "CitadelTests",
             dependencies: [
